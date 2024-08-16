@@ -83,4 +83,5 @@ router.post('/shoesstore/delete', storeShoesController.deleteStoreShoes);
 router.post('/characPriceShoes', queyrshoesCharacController.getShoesWithCharacteristicsAndPrices);
 router.post('/characPriceShoes/:shoe_id', queyrshoesCharacController.getShoeWithCharacteristicsAndPricesById);
 router.post('/shesbrand/:brand_id', queyrshoesCharacController.getShoesByBrand)
+router.post('/storeshoes/:store_id', queyrshoesCharacController.getShoesByStore)
 module.exports = router;

@@ -45,3 +45,26 @@ exports.getShoesByBrand = (req, res) => {
         });
     });
 };
+
+// controllers/queryshoesCharacPriceController.js
+
+
+// Controlador para obtener zapatos disponibles en una tienda específica
+exports.getShoesByStore = (req, res) => {
+    const { store_id } = req.params;
+
+    shoesModel.getShoesByStore(store_id, (err, shoes) => {
+        if (err) {
+            return res.status(500).json({
+                code: 'ERROR',
+                message: 'Error al obtener los zapatos',
+                error: err.message
+            });
+        }
+
+        res.status(200).json({
+            code: 'OK',
+            data: shoes
+        });
+    });
+};

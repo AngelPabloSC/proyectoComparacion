@@ -101,8 +101,29 @@ const getShoesByBrand = (brand_id, callback) => {
 };
 
 
+// Obtener todos los zapatos disponibles en una tienda específica
+const getShoesByStore = (store_id, callback) => {
+    db.query(queries.GET_SHOES_BY_STORE, [store_id], (err, results) => {
+        if (err) {
+            return callback(err);
+        }
+
+        // Mapeo de resultados a un formato adecuado
+        const shoes = results.map(row => ({
+            shoe_id: row.shoe_id,
+            shoe_name: row.shoe_name,
+            brand_name: row.brand_name,
+            image_url: row.image_url,
+            price: row.price
+        }));
+
+        callback(null, shoes);
+    });
+};
+
 module.exports = {
     getAllShoesWithCharacteristicsAndPrices,
     getShoeWithCharacteristicsAndPricesById,
-    getShoesByBrand
+    getShoesByBrand,
+    getShoesByStore
 };

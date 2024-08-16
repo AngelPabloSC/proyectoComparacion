@@ -31,10 +31,29 @@ const GET_SHOES_BY_BRAND = `
   LIMIT 0, 1000;
 `;
 
-
+const GET_SHOES_BY_STORE = `
+  SELECT 
+    s.shoe_id, 
+    s.name AS shoe_name, 
+    b.name AS brand_name, 
+    s.image_url, 
+    ss.price 
+  FROM 
+    shoes s
+  JOIN 
+    storeShoes ss ON s.shoe_id = ss.fk_shoes
+  JOIN 
+    store st ON ss.fk_store = st.store_id
+  JOIN
+    brands b ON s.brand_id = b.brand_id
+  WHERE 
+    st.store_id = ?
+  LIMIT 0, 1000;
+`;
 
 module.exports = {
     GET_ALL_SHOES_WITH_CHARACTERISTICS_AND_PRICES,
     GET_SHOE_WITH_CHARACTERISTICS_AND_PRICES_BY_ID,
-    GET_SHOES_BY_BRAND
+    GET_SHOES_BY_BRAND,
+    GET_SHOES_BY_STORE
 };
