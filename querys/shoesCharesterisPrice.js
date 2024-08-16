@@ -60,7 +60,8 @@ const GET_ALL_SHOES_WITH_DETAILS = `
     b.name AS brand_name, 
     s.image_url, 
     c.name AS category_name, 
-    st.price 
+    ss.price,
+    st.name AS store_name
   FROM 
     shoes s
   JOIN 
@@ -70,8 +71,11 @@ const GET_ALL_SHOES_WITH_DETAILS = `
     categories c 
     ON s.fk_categoryshoes = c.category_id
   LEFT JOIN 
-    storeShoes st 
-    ON s.shoe_id = st.fk_shoes
+    storeShoes ss 
+    ON s.shoe_id = ss.fk_shoes
+  LEFT JOIN 
+    store st 
+    ON ss.fk_store = st.store_id;
 `;
 
 

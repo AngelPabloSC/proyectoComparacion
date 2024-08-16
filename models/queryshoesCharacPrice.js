@@ -136,7 +136,8 @@ const getAllShoesWithDetails = (callback) => {
             brand_name: row.brand_name,
             image_url: row.image_url,
             category_name: row.category_name,
-            price: row.price
+            price: row.price,
+            store_name: row.store_name
         }));
 
         // Enviar el formato esperado
