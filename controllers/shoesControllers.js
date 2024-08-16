@@ -80,7 +80,8 @@ exports.updateShoe = (req, res) => {
         }
 
         try {
-            const result = await Shoes.updateShoe(id, name, brand_id, fk_categoryshoes, image_url || null);
+            // Actualizar el zapato en la base de datos
+            const result = await Shoes.updateShoe(id, name, brand_id, fk_categoryshoes, image_url);
             if (result.affectedRows === 0) return res.status(404).json({ code: "COD_ERR", result: { message: 'Shoe not found' } });
             res.status(200).json({ code: "COD_OK", result: { message: 'Shoe updated successfully', id, name, brand_id, fk_categoryshoes, image_url } });
         } catch (error) {

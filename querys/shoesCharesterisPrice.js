@@ -11,14 +11,33 @@ const GET_ALL_SHOES_WITH_CHARACTERISTICS_AND_PRICES = `
 `;
 
 const GET_SHOE_WITH_CHARACTERISTICS_AND_PRICES_BY_ID = `
-  SELECT s.shoe_id, s.name AS shoe_name, s.brand_id, s.image_url, s.fk_categoryshoes,
-         sc.fk_characteristics AS characteristic_id, c.name AS characteristic_name, sc.value,
-         st.price AS store_price
-  FROM shoes s
-  LEFT JOIN zdzkxer8m5jmvjms.shoescharacteris sc ON s.shoe_id = sc.fk_shoes
-  LEFT JOIN zdzkxer8m5jmvjms.characteristics c ON sc.fk_characteristics = c.characteristic_id
-  LEFT JOIN zdzkxer8m5jmvjms.storeShoes st ON s.shoe_id = st.fk_shoes
-  WHERE s.shoe_id = ?
+    SELECT 
+    s.shoe_id, 
+    s.name AS shoe_name, 
+    s.image_url, 
+    b.name AS brand_name,  -- Nombre de la marca
+    c2.name AS category_name,  -- Nombre de la categoría
+    sc.fk_characteristics AS characteristic_id, 
+    c.name AS characteristic_name, 
+    sc.value,
+    st.price AS store_price,
+    st2.name AS store_name  -- Nombre de la tienda
+FROM 
+    shoes s
+LEFT JOIN 
+    zdzkxer8m5jmvjms.shoescharacteris sc ON s.shoe_id = sc.fk_shoes
+LEFT JOIN 
+    zdzkxer8m5jmvjms.characteristics c ON sc.fk_characteristics = c.characteristic_id
+LEFT JOIN 
+    zdzkxer8m5jmvjms.storeShoes st ON s.shoe_id = st.fk_shoes
+LEFT JOIN 
+    zdzkxer8m5jmvjms.store st2 ON st.fk_store = st2.store_id
+LEFT JOIN 
+    zdzkxer8m5jmvjms.brands b ON s.brand_id = b.brand_id  -- Nombre de la marca
+LEFT JOIN 
+    zdzkxer8m5jmvjms.categories c2 ON s.fk_categoryshoes = c2.category_id  -- Nombre de la categoría
+WHERE 
+    s.shoe_id = ?;
 `;
 
 // queries/shoesQueries.js

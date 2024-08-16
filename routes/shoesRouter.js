@@ -48,7 +48,7 @@ router.post('/shoes/create', shoesController.createShoe);
 router.post('/shoes/getAll', shoesController.getAllShoes);
 router.post('/shoes/getById', shoesController.getShoeById);
 router.post('/shoes/update/:id', shoesController.updateShoe);
-router.post('/shoes/delete', shoesController.deleteShoe);
+router.post('/shoes/delete/:id', shoesController.deleteShoe);
 // Rutas para user
 router.post('/user/create', userController.createUser);
 router.post('/user/getAll', userController.getAllUsers);

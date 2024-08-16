@@ -59,9 +59,9 @@ const getShoeWithCharacteristicsAndPricesById = (shoe_id, callback) => {
         const shoe = {
             shoe_id: results[0].shoe_id,
             shoe_name: results[0].shoe_name,
-            brand_id: results[0].brand_id,
+            brand_name: results[0].brand_name,  // Cambiado a brand_name
             image_url: results[0].image_url,
-            fk_categoryshoes: results[0].fk_categoryshoes,
+            category_name: results[0].category_name,  // Cambiado a category_name
             characteristics: [],
             prices: []
         };
@@ -78,7 +78,8 @@ const getShoeWithCharacteristicsAndPricesById = (shoe_id, callback) => {
             // Evitar precios duplicados
             if (row.store_price && !shoe.prices.some(p => p.price === row.store_price)) {
                 shoe.prices.push({
-                    price: row.store_price
+                    price: row.store_price,
+                    store_name: row.store_name  // Agregado el nombre de la tienda
                 });
             }
         });
