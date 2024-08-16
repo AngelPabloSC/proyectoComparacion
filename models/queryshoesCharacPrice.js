@@ -124,7 +124,8 @@ const getShoesByStore = (store_id, callback) => {
             shoe_name: row.shoe_name,
             brand_name: row.brand_name,
             image_url: row.image_url,
-            price: row.price
+            price: row.price,
+            store_name: row.store_name
         }));
 
         callback(null, shoes);

@@ -37,18 +37,19 @@ const GET_SHOES_BY_STORE = `
     s.name AS shoe_name, 
     b.name AS brand_name, 
     s.image_url, 
-    ss.price 
-  FROM 
+    ss.price,
+    st.name AS store_name  
+FROM 
     shoes s
-  JOIN 
+JOIN 
     storeShoes ss ON s.shoe_id = ss.fk_shoes
-  JOIN 
+JOIN 
     store st ON ss.fk_store = st.store_id
-  JOIN
+JOIN
     brands b ON s.brand_id = b.brand_id
-  WHERE 
-    st.store_id = ?
-  LIMIT 0, 1000;
+WHERE 
+    st.store_id = 2
+LIMIT 0, 1000;
 `;
 
 // queries/shoesQueries.js
