@@ -7,10 +7,7 @@ const queries = require('../querys/shoesCharesterisPrice.js');
 const getAllShoesWithCharacteristicsAndPrices = (callback) => {
     db.query(queries.GET_ALL_SHOES_WITH_CHARACTERISTICS_AND_PRICES, (err, results) => {
         if (err) {
-            return callback({
-                code: "COD_ERR",
-                result: { error: err.message }
-            });
+            return callback(err);
         }
 
         const shoes = [];
@@ -28,14 +25,16 @@ const getAllShoesWithCharacteristicsAndPrices = (callback) => {
                 };
                 shoes.push(shoe);
             }
-            if (row.characteristic_id) {
+            // Evitar características duplicadas
+            if (row.characteristic_id && !shoe.characteristics.some(c => c.characteristic_id === row.characteristic_id)) {
                 shoe.characteristics.push({
                     characteristic_id: row.characteristic_id,
                     characteristic_name: row.characteristic_name,
                     value: row.value
                 });
             }
-            if (row.store_price) {
+            // Evitar precios duplicados
+            if (row.store_price && !shoe.prices.some(p => p.price === row.store_price)) {
                 shoe.prices.push({
                     price: row.store_price
                 });
