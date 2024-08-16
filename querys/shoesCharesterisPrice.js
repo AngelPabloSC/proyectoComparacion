@@ -38,7 +38,7 @@ const GET_SHOES_BY_STORE = `
     b.name AS brand_name, 
     s.image_url, 
     ss.price,
-    st.name AS store_name  
+    st.name AS store_name  -- Agregado el nombre de la tienda
 FROM 
     shoes s
 JOIN 
@@ -48,7 +48,7 @@ JOIN
 JOIN
     brands b ON s.brand_id = b.brand_id
 WHERE 
-    st.store_id = 2
+    st.store_id = ?
 LIMIT 0, 1000;
 `;
 
