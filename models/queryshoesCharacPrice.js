@@ -7,7 +7,10 @@ const queries = require('../querys/shoesCharesterisPrice.js');
 const getAllShoesWithCharacteristicsAndPrices = (callback) => {
     db.query(queries.GET_ALL_SHOES_WITH_CHARACTERISTICS_AND_PRICES, (err, results) => {
         if (err) {
-            return callback(err);
+            return callback({
+                code: "COD_ERR",
+                result: { error: err.message }
+            });
         }
 
         const shoes = [];
