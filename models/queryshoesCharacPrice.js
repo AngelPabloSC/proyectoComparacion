@@ -124,7 +124,10 @@ const getShoesByStore = (store_id, callback) => {
 const getAllShoesWithDetails = (callback) => {
     db.query(queries.GET_ALL_SHOES_WITH_DETAILS, (err, results) => {
         if (err) {
-            return callback(err);
+            return callback({
+                code: "COD_ERR",
+                result: { error: err.message }
+            });
         }
 
         const shoes = results.map(row => ({
@@ -136,10 +139,13 @@ const getAllShoesWithDetails = (callback) => {
             price: row.price
         }));
 
-        callback(null, shoes);
+        // Enviar el formato esperado
+        callback(null, {
+            code: "COD_OK",
+            result: { data: shoes }
+        });
     });
 };
-
 module.exports = {
     getAllShoesWithCharacteristicsAndPrices,
     getShoeWithCharacteristicsAndPricesById,

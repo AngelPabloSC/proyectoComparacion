@@ -113,3 +113,4 @@ exports.deleteShoeCharacteristic = async (req, res) => {
     });
   }
 };
+
