@@ -3,12 +3,19 @@
 const shoesModel = require('../models/queryshoesCharacPrice');
 
 // Controlador para obtener todos los zapatos con características y precios
+// Controlador para obtener todos los zapatos con características y precios
 exports.getShoesWithCharacteristicsAndPrices = (req, res) => {
     shoesModel.getAllShoesWithCharacteristicsAndPrices((err, shoes) => {
         if (err) {
-            return res.status(500).json({ code: "COD_ERR", result: { error: err.message } });
+            return res.status(500).json({
+                code: "COD_ERR",
+                result: { error: err.message }
+            });
         }
-        res.status(200).json({ code: "COD_OK", data: shoes });
+        res.status(200).json({
+            code: "COD_OK",
+            result: { data: shoes }
+        });
     });
 };
 
