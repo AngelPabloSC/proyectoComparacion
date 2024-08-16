@@ -78,7 +78,7 @@ router.post('/shoesstore/create', storeShoesController.createStoreShoes);
 router.post('/shoesstore/getAll', storeShoesController.getAllStoreShoes);
 router.post('/shoesstore/getById', storeShoesController.getStoreShoesByIds);
 router.post('/shoesstore/update/:id', storeShoesController.updateStoreShoes);
-router.post('/shoesstore/delete', storeShoesController.deleteStoreShoes);
+router.post('/shoesstore/delete/:id', storeShoesController.deleteStoreShoes);
 //Queryshoeschrateris
 router.post('/characPriceShoes', queyrshoesCharacController.getShoesWithCharacteristicsAndPrices);
 router.post('/characPriceShoes/:shoe_id', queyrshoesCharacController.getShoeWithCharacteristicsAndPricesById);
