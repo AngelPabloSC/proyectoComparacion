@@ -67,14 +67,16 @@ const getShoeWithCharacteristicsAndPricesById = (shoe_id, callback) => {
         };
 
         results.forEach(row => {
-            if (row.characteristic_id) {
+            // Evitar características duplicadas
+            if (row.characteristic_id && !shoe.characteristics.some(c => c.characteristic_id === row.characteristic_id)) {
                 shoe.characteristics.push({
                     characteristic_id: row.characteristic_id,
                     characteristic_name: row.characteristic_name,
                     value: row.value
                 });
             }
-            if (row.store_price) {
+            // Evitar precios duplicados
+            if (row.store_price && !shoe.prices.some(p => p.price === row.store_price)) {
                 shoe.prices.push({
                     price: row.store_price
                 });

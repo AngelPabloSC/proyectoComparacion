@@ -25,11 +25,20 @@ exports.getShoeWithCharacteristicsAndPricesById = (req, res) => {
     shoesModel.getShoeWithCharacteristicsAndPricesById(shoe_id, (err, shoe) => {
         if (err) {
             if (err.message === 'Shoe not found') {
-                return res.status(404).json({ code: "COD_ERR", result: { error: 'Shoe not found' } });
+                return res.status(404).json({
+                    code: "COD_ERR",
+                    result: { error: 'Shoe not found' }
+                });
             }
-            return res.status(500).json({ code: "COD_ERR", result: { error: err.message } });
+            return res.status(500).json({
+                code: "COD_ERR",
+                result: { error: err.message }
+            });
         }
-        res.status(200).json({ code: "COD_OK", data: shoe });
+        res.status(200).json({
+            code: "COD_OK",
+            result: { data: shoe }
+        });
     });
 };
 
