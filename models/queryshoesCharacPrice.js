@@ -105,7 +105,10 @@ const getShoesByBrand = (brand_id, callback) => {
 const getShoesByStore = (store_id, callback) => {
     db.query(queries.GET_SHOES_BY_STORE, [store_id], (err, results) => {
         if (err) {
-            return callback(err);
+            return callback({
+                code: "COD_ERR",
+                result: { error: err.message }
+            });
         }
 
         // Mapeo de resultados a un formato adecuado

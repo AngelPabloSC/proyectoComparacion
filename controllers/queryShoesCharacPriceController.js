@@ -53,18 +53,20 @@ exports.getShoesByBrand = (req, res) => {
 exports.getShoesByStore = (req, res) => {
     const { store_id } = req.params;
 
-    shoesModel.getShoesByStore(store_id, (err, shoes) => {
+    shoesModel.getShoesByStore(store_id, (err, result) => {
         if (err) {
             return res.status(500).json({
-                code: 'ERROR',
-                message: 'Error al obtener los zapatos',
-                error: err.message
+                code: "COD_ERR",
+                result: { error: err.message }
             });
         }
 
+        // Ajustar el formato de respuesta
         res.status(200).json({
-            code: 'OK',
-            data: shoes
+            code: "COD_OK",
+            result: {
+                data: result
+            }
         });
     });
 };
