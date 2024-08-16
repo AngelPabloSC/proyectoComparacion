@@ -68,3 +68,13 @@ exports.getShoesByStore = (req, res) => {
         });
     });
 };
+
+// Controlador para obtener todos los zapatos con detalles Precio
+exports.getShoesWithDetails = (req, res) => {
+    shoesModel.getAllShoesWithDetails((err, shoes) => {
+        if (err) {
+            return res.status(500).json({ code: "COD_ERR", result: { error: err.message } });
+        }
+        res.status(200).json({ code: "COD_OK", data: shoes });
+    });
+};

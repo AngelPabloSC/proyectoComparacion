@@ -51,9 +51,34 @@ const GET_SHOES_BY_STORE = `
   LIMIT 0, 1000;
 `;
 
+// queries/shoesQueries.js
+
+const GET_ALL_SHOES_WITH_DETAILS = `
+  SELECT 
+    s.shoe_id, 
+    s.name AS shoe_name, 
+    b.name AS brand_name, 
+    s.image_url, 
+    c.name AS category_name, 
+    st.price 
+  FROM 
+    shoes s
+  JOIN 
+    brands b 
+    ON s.brand_id = b.brand_id
+  LEFT JOIN 
+    categories c 
+    ON s.fk_categoryshoes = c.category_id
+  LEFT JOIN 
+    storeShoes st 
+    ON s.shoe_id = st.fk_shoes
+`;
+
+
 module.exports = {
-    GET_ALL_SHOES_WITH_CHARACTERISTICS_AND_PRICES,
-    GET_SHOE_WITH_CHARACTERISTICS_AND_PRICES_BY_ID,
-    GET_SHOES_BY_BRAND,
-    GET_SHOES_BY_STORE
+  GET_ALL_SHOES_WITH_CHARACTERISTICS_AND_PRICES,
+  GET_SHOE_WITH_CHARACTERISTICS_AND_PRICES_BY_ID,
+  GET_SHOES_BY_BRAND,
+  GET_SHOES_BY_STORE,
+  GET_ALL_SHOES_WITH_DETAILS
 };

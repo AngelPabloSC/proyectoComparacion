@@ -121,9 +121,29 @@ const getShoesByStore = (store_id, callback) => {
     });
 };
 
+const getAllShoesWithDetails = (callback) => {
+    db.query(queries.GET_ALL_SHOES_WITH_DETAILS, (err, results) => {
+        if (err) {
+            return callback(err);
+        }
+
+        const shoes = results.map(row => ({
+            shoe_id: row.shoe_id,
+            shoe_name: row.shoe_name,
+            brand_name: row.brand_name,
+            image_url: row.image_url,
+            category_name: row.category_name,
+            price: row.price
+        }));
+
+        callback(null, shoes);
+    });
+};
+
 module.exports = {
     getAllShoesWithCharacteristicsAndPrices,
     getShoeWithCharacteristicsAndPricesById,
     getShoesByBrand,
-    getShoesByStore
+    getShoesByStore,
+    getAllShoesWithDetails
 };
