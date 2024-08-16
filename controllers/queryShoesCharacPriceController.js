@@ -30,18 +30,19 @@ exports.getShoeWithCharacteristicsAndPricesById = (req, res) => {
 exports.getShoesByBrand = (req, res) => {
     const { brand_id } = req.params;  // Usa `req.query` si estás pasando el parámetro en la cadena de consulta
 
-    shoesModel.getShoesByBrand(brand_id, (err, shoes) => {
+    shoesModel.getShoesByBrand(brand_id, (err, result) => {
         if (err) {
             return res.status(500).json({
-                code: 'ERROR',
-                message: 'Error al obtener los zapatos',
-                error: err
+                code: "COD_ERR",
+                result: { error: err.message }
             });
         }
 
         res.status(200).json({
-            code: 'OK',
-            data: shoes
+            code: "COD_OK",
+            result: {
+                data: result
+            }
         });
     });
 };
