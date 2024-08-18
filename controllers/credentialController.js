@@ -24,14 +24,22 @@ exports.createCredential = (req, res) => {
 exports.login = (req, res) => {
     const { username, password } = req.body;
     Credentials.verifyCredentials(username, password, (err, user) => {
-        if (err) return res.status(500).json({
-            code: "COD_ERR",
-            result: { error: err.message }
-        });
-        if (!user) return res.status(401).json({
-            code: "COD_ERR",
-            result: { message: 'Invalid username or password' }
-        });
+        if (err) {
+            console.error('Error al verificar credenciales:', err);
+            return res.status(500).json({
+                code: "COD_ERR",
+                result: { error: err.message }
+            });
+        }
+        if (!user) {
+            console.log('Usuario no encontrado o contraseña incorrecta');
+            return res.status(401).json({
+                code: "COD_ERR",
+                result: { message: 'Invalid username or password' }
+            });
+        }
+
+        console.log('Usuario verificado:', user);
 
         // Generar token JWT usando fk_user
         const token = generateToken(user.fk_user);
@@ -47,7 +55,6 @@ exports.login = (req, res) => {
         });
     });
 };
-
 // Obtener todas las credenciales
 exports.getAllCredentials = (req, res) => {
     Credentials.getAllCredentials((err, result) => {
