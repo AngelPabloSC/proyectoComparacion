@@ -5,29 +5,42 @@ const bcrypt = require('bcryptjs');
 // Crear una credencial
 exports.createCredential = (req, res) => {
     const { username, password, fk_user } = req.body;
-    Credentials.createCredential(username, password, fk_user, (err, result) => {
-        if (err) return res.status(500).json({
-            code: "COD_ERR",
-            result: { error: err.message }
-        });
-        res.status(201).json({
-            code: "COD_OK",
-            result: {
-                message: "Credential created successfully",
-                id_credential: result.id_credential,
-                username,
-                fk_user
-            }
+
+    // Generar el hash de la contraseña
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
+        if (err) {
+            console.error('Error al generar el hash de la contraseña:', err);
+            return res.status(500).json({
+                code: "COD_ERR",
+                result: { error: err.message }
+            });
+        }
+
+        // Almacenar la credencial en la base de datos
+        Credentials.createCredential(username, hashedPassword, fk_user, (err, result) => {
+            if (err) return res.status(500).json({
+                code: "COD_ERR",
+                result: { error: err.message }
+            });
+
+            res.status(201).json({
+                code: "COD_OK",
+                result: {
+                    message: "Credential created successfully",
+                    id_credential: result.id_credential,
+                    username,
+                    fk_user
+                }
+            });
         });
     });
 };
-
 // Iniciar sesión
 exports.login = (req, res) => {
     const { username, password } = req.body;
     console.log('Solicitando login para usuario:', username);
 
-    // Recupera las credenciales del usuario de la base de datos
+    // Recuperar las credenciales del usuario de la base de datos
     db.query('SELECT * FROM credential WHERE username = ?', [username], (err, results) => {
         if (err) {
             console.error('Error al consultar la base de datos:', err);
@@ -46,6 +59,8 @@ exports.login = (req, res) => {
         }
 
         const user = results[0];
+
+        // Comparar la contraseña proporcionada con el hash almacenado
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) {
                 console.error('Error al comparar la contraseña:', err);
@@ -65,7 +80,7 @@ exports.login = (req, res) => {
 
             console.log('Usuario verificado:', user);
 
-            // Aquí puedes generar un token JWT y devolverlo
+            // Generar un token JWT y devolverlo
             const token = generateToken(user.fk_user);
 
             res.status(200).json({
@@ -77,8 +92,6 @@ exports.login = (req, res) => {
                     token
                 }
             });
-            console.log('Datos recibidos en el login:', req.body);
-            console.log('Resultado de la consulta a la base de datos:', results);
         });
     });
 };
