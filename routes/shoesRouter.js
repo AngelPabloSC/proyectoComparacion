@@ -13,7 +13,7 @@ const historyUserController = require('../controllers/historyUserController.js')
 const storeController = require('../controllers/storeController.js');
 const storeShoesController = require('../controllers/storeShoesController.js');
 const queyrshoesCharacController = require('../controllers/queryShoesCharacPriceController.js');
-
+const authenticate = require('../middlewares/authMiddleware.js');
 // Rutas para características
 router.post('/characteristics/create', characteristicsController.createCharacteristic);
 router.post('/characteristics/getAll', characteristicsController.getAllCharacteristics);
@@ -55,6 +55,12 @@ router.post('/user/getAll', userController.getAllUsers);
 router.post('/user/getById', userController.getUserById);
 router.post('/user/update/:id', userController.updateUser);
 router.post('/user/delete', userController.deleteUser);
+
+//iniciar Secion
+router.get('/protected-route', authenticate, (req, res) => {
+    res.json({ message: 'This is a protected route', userId: req.userId });
+});
+router.post('/login', credentialController.login);
 // Rutas para credential
 router.post('/credential/create', credentialController.createCredential);
 router.post('/credential/getAll', credentialController.getAllCredentials);

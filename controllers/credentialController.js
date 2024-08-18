@@ -1,5 +1,5 @@
 const Credentials = require('../models/credentialModels');
-
+const { generateToken } = require('../utils/auth');
 // Crear una credencial
 exports.createCredential = (req, res) => {
     const { username, password, fk_user } = req.body;
@@ -15,6 +15,34 @@ exports.createCredential = (req, res) => {
                 id_credential: result.id_credential,
                 username,
                 fk_user
+            }
+        });
+    });
+};
+
+// Iniciar sesión
+exports.login = (req, res) => {
+    const { username, password } = req.body;
+    Credentials.verifyCredentials(username, password, (err, user) => {
+        if (err) return res.status(500).json({
+            code: "COD_ERR",
+            result: { error: err.message }
+        });
+        if (!user) return res.status(401).json({
+            code: "COD_ERR",
+            result: { message: 'Invalid username or password' }
+        });
+
+        // Generar token JWT usando fk_user
+        const token = generateToken(user.fk_user);
+
+        res.status(200).json({
+            code: "COD_OK",
+            result: {
+                message: "Login successful",
+                userId: user.fk_user, // Aquí usamos fk_user en lugar de id_credential
+                username,
+                token // Enviar el token JWT
             }
         });
     });
@@ -91,9 +119,6 @@ exports.deleteCredential = (req, res) => {
             code: "COD_ERR",
             result: { message: 'Credential not found' }
         });
-        res.status(204).json({
-            code: "COD_OK",
-            result: { message: 'Credential deleted successfully' }
-        });
+        res.status(204).end();
     });
 };
