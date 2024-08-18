@@ -11,13 +11,16 @@ exports.createUser = (req, res) => {
     res.status(201).json({
       code: "COD_OK",
       result: {
-        message: "User created successfully",
-        id: result.id_user,  // Asegúrate de usar 'id_user'
-        name,
-        lastname,
-        birthday_date,
-        email,
-        fk_category_user
+        data: [
+          {
+            id: result.id_user,
+            name,
+            lastname,
+            birthday_date,
+            email,
+            fk_category_user
+          }
+        ]
       }
     });
   });
@@ -33,7 +36,6 @@ exports.getAllUsers = (req, res) => {
     res.status(200).json({
       code: "COD_OK",
       result: {
-        message: "Users fetched successfully",
         data: users
       }
     });
@@ -55,8 +57,7 @@ exports.getUserById = (req, res) => {
     res.status(200).json({
       code: "COD_OK",
       result: {
-        message: "User fetched successfully",
-        data: user
+        data: [user]
       }
     });
   });
