@@ -1,5 +1,5 @@
 const db = require('../config/dbconfig.js');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 // Función para crear una credencial
 const createCredential = (username, password, fk_user, callback) => {
   bcrypt.hash(password, 10, (err, hashedPassword) => {
