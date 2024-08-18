@@ -15,7 +15,7 @@ const verifyToken = (token) => {
         return null;
     }
 };
-
+console.log(process.env.JWT_SECRET);
 module.exports = {
     generateToken,
     verifyToken

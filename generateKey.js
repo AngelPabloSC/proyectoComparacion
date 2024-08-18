@@ -1,22 +1,15 @@
 const bcrypt = require('bcryptjs');
 
-// Contraseña original
-const plainPassword = 'angel123'; // Reemplaza con la contraseña original
+// Hash de la contraseña almacenada en la base de datos
+const storedHash = '$2a$10$f1iEjH874jhbe23q0IDNbOJ1S';
 
-// Genera un nuevo hash
-bcrypt.hash(plainPassword, 10, (err, newHash) => {
+// Contraseña que estás intentando verificar
+const plainPassword = 'testpassword'; // Reemplaza esto con la contraseña que debería coincidir
+
+bcrypt.compare(plainPassword, storedHash, (err, isMatch) => {
   if (err) {
-    console.error('Error al generar el hash:', err);
+    console.error('Error al comparar la contraseña:', err);
     return;
   }
-  console.log('Nuevo hash generado:', newHash);
-
-  // Compara el nuevo hash con el hash almacenado
-  bcrypt.compare(plainPassword, newHash, (err, isMatch) => {
-    if (err) {
-      console.error('Error al comparar el hash:', err);
-      return;
-    }
-    console.log('¿El nuevo hash coincide?', isMatch); // Debería ser true
-  });
+  console.log('¿La contraseña coincide?', isMatch); // Debería ser true si la contraseña coincide
 });
