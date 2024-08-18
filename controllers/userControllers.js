@@ -12,7 +12,7 @@ exports.createUser = (req, res) => {
       code: "COD_OK",
       result: {
         message: "User created successfully",
-        id: result.id,
+        id: result.id_user,  // Asegúrate de usar 'id_user'
         name,
         lastname,
         birthday_date,
