@@ -11,6 +11,7 @@ exports.createUser = (req, res) => {
     res.status(201).json({
       code: "COD_OK",
       result: {
+        message: "User created successfully",
         data: [
           {
             id: result.id_user,
@@ -36,6 +37,7 @@ exports.getAllUsers = (req, res) => {
     res.status(200).json({
       code: "COD_OK",
       result: {
+        message: "Users fetched successfully",
         data: users
       }
     });
@@ -57,6 +59,7 @@ exports.getUserById = (req, res) => {
     res.status(200).json({
       code: "COD_OK",
       result: {
+        message: "User fetched successfully",
         data: [user]
       }
     });
