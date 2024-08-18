@@ -1,5 +1,7 @@
 const Credentials = require('../models/credentialModels');
 const { generateToken } = require('../utils/auth');
+const db = require('../config/dbconfig');
+const bcrypt = require('bcryptjs');
 // Crear una credencial
 exports.createCredential = (req, res) => {
     const { username, password, fk_user } = req.body;
@@ -23,38 +25,64 @@ exports.createCredential = (req, res) => {
 // Iniciar sesión
 exports.login = (req, res) => {
     const { username, password } = req.body;
-    Credentials.verifyCredentials(username, password, (err, user) => {
+    console.log('Solicitando login para usuario:', username);
+
+    // Recupera las credenciales del usuario de la base de datos
+    db.query('SELECT * FROM credential WHERE username = ?', [username], (err, results) => {
         if (err) {
-            console.error('Error al verificar credenciales:', err);
+            console.error('Error al consultar la base de datos:', err);
             return res.status(500).json({
                 code: "COD_ERR",
                 result: { error: err.message }
             });
         }
-        if (!user) {
-            console.log('Usuario no encontrado o contraseña incorrecta');
+
+        if (results.length === 0) {
+            console.log('Usuario no encontrado');
             return res.status(401).json({
                 code: "COD_ERR",
                 result: { message: 'Invalid username or password' }
             });
         }
 
-        console.log('Usuario verificado:', user);
-
-        // Generar token JWT usando fk_user
-        const token = generateToken(user.fk_user);
-
-        res.status(200).json({
-            code: "COD_OK",
-            result: {
-                message: "Login successful",
-                userId: user.fk_user, // Aquí usamos fk_user en lugar de id_credential
-                username,
-                token // Enviar el token JWT
+        const user = results[0];
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+            if (err) {
+                console.error('Error al comparar la contraseña:', err);
+                return res.status(500).json({
+                    code: "COD_ERR",
+                    result: { error: err.message }
+                });
             }
+
+            if (!isMatch) {
+                console.log('Contraseña incorrecta');
+                return res.status(401).json({
+                    code: "COD_ERR",
+                    result: { message: 'Invalid username or password' }
+                });
+            }
+
+            console.log('Usuario verificado:', user);
+
+            // Aquí puedes generar un token JWT y devolverlo
+            const token = generateToken(user.fk_user);
+
+            res.status(200).json({
+                code: "COD_OK",
+                result: {
+                    message: "Login successful",
+                    userId: user.fk_user,
+                    username,
+                    token
+                }
+            });
+            console.log('Datos recibidos en el login:', req.body);
+            console.log('Resultado de la consulta a la base de datos:', results);
         });
     });
 };
+
 // Obtener todas las credenciales
 exports.getAllCredentials = (req, res) => {
     Credentials.getAllCredentials((err, result) => {
