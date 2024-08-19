@@ -26,17 +26,15 @@ exports.createShoe = (req, res) => {
         }
 
         try {
-            // Responde al cliente inmediatamente
-            res.status(202).json({ code: "COD_OK", result: { message: 'Processing shoe creation, check later for status' } });
+            // Responder inmediatamente al cliente
+            res.status(202).json({ code: "COD_OK", result: { message: 'Shoe creation in progress' } });
 
-            // Subir la imagen a Cloudinary en segundo plano
+            // Subir imagen a Cloudinary en segundo plano
             const image_url = await uploadImageToCloudinary(file.path);
 
-            // Inserta el zapato en la base de datos
+            // Insertar el zapato en la base de datos
             const result = await Shoes.createShoe(name, brand_id, fk_categoryshoes, image_url);
-            console.log('Shoe created successfully with ID:', result.id);
-
-            // Notifica o maneja la finalización del proceso de alguna manera (ej. websockets, emails, etc.)
+            console.log('Shoe created with ID:', result.id);
 
         } catch (error) {
             console.error('Error during shoe creation:', error.message);
