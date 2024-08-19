@@ -14,13 +14,19 @@ exports.createCredential = (req, res) => {
             code: "COD_OK",
             result: {
                 message: "Credential created successfully",
-                id_credential: result.id_credential,
-                username,
-                fk_user
+                data: [
+                    {
+
+                        id_credential: result.id_credential,
+                        username,
+                        fk_user
+                    }
+                ]
             }
         });
     });
 };
+
 // Iniciar sesión
 exports.login = (req, res) => {
     const { username, password } = req.body;
