@@ -19,25 +19,21 @@ exports.createShoe = (req, res) => {
         if (err) return res.status(500).json({ code: "COD_ERR", result: { error: 'Error en la carga del archivo' } });
 
         const { name, brand_id, fk_categoryshoes } = req.body;
-        const file = req.file;
+        const file = req.file; // Archivo cargado
 
         if (!file) {
             return res.status(400).json({ code: "COD_ERR", result: { error: 'Image file is required' } });
         }
 
         try {
-            // Responder inmediatamente al cliente
-            res.status(202).json({ code: "COD_OK", result: { message: 'Shoe creation in progress' } });
-
-            // Subir imagen a Cloudinary en segundo plano
+            // Subir imagen a Cloudinary
             const image_url = await uploadImageToCloudinary(file.path);
 
             // Insertar el zapato en la base de datos
             const result = await Shoes.createShoe(name, brand_id, fk_categoryshoes, image_url);
-            console.log('Shoe created with ID:', result.id);
-
+            res.status(201).json({ code: "COD_OK", result: { id: result.id, name, brand_id, fk_categoryshoes, image_url } });
         } catch (error) {
-            console.error('Error during shoe creation:', error.message);
+            res.status(500).json({ code: "COD_ERR", result: { error: error.message } });
         }
     });
 };
