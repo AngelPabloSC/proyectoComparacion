@@ -1,10 +1,10 @@
 const bcrypt = require('bcryptjs');
 
 // Hash de la contraseña almacenada en la base de datos
-const storedHash = '$2a$10$f1iEjH874jhbe23q0IDNbOJ1S';
+const storedHash = '$2a$10$yVX1RsBj6vVpXCPm1lysM.2juasH3IWSStGdnSOgCIbSZR/6jBhBy';
 
 // Contraseña que estás intentando verificar
-const plainPassword = 'testpassword'; // Reemplaza esto con la contraseña que debería coincidir
+const plainPassword = 'angel123'; // Reemplaza esto con la contraseña que debería coincidir
 
 bcrypt.compare(plainPassword, storedHash, (err, isMatch) => {
   if (err) {
