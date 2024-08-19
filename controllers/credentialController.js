@@ -84,9 +84,12 @@ exports.login = (req, res) => {
                 code: "COD_OK",
                 result: {
                     message: "Login successful",
-                    userId: user.fk_user,
-                    username,
-                    token
+                    data: [{
+                        userId: user.fk_user,
+                        username,
+                        token
+                    }]
+
                 }
             });
         });
