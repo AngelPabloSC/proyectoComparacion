@@ -176,7 +176,7 @@ const fetchUserCategoriesDetails = (userId, callback) => {
         }));
 
         callback(null, {
-            code: "SUCCESS_CODE",
+            code: "COD_OK",
             result: { data: categories }
         });
     });
