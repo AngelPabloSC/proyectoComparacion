@@ -159,10 +159,37 @@ const getAllShoesWithDetails = (callback) => {
         });
     });
 };
+
+const fetchUserCategoriesDetails = (userId, callback) => {
+    db.query(queries.FETCH_USER_CATEGORIES_DETAILS, [userId], (err, results) => {
+        if (err) {
+            return callback({
+                code: "ERR_CODE",
+                result: { error: err.message }
+            });
+        }
+
+        const categories = results.map(row => ({
+            category_name: row.category_name,
+            id_user: row.id_user,
+            user_name: row.user_name
+        }));
+
+        callback(null, {
+            code: "SUCCESS_CODE",
+            result: { data: categories }
+        });
+    });
+};
+
+
+
+
 module.exports = {
     getAllShoesWithCharacteristicsAndPrices,
     getShoeWithCharacteristicsAndPricesById,
     getShoesByBrand,
     getShoesByStore,
-    getAllShoesWithDetails
+    getAllShoesWithDetails,
+    fetchUserCategoriesDetails,
 };

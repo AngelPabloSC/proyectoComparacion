@@ -4,8 +4,8 @@ const db = require('../config/dbconfig.js');
 const createUser = (name, lastname, birthday_date, email, fk_category_user, callback) => {
   const query = 'INSERT INTO user (name, lastname, birthday_date, email, fk_category_user) VALUES (?, ?, ?, ?, ?)';
   db.query(query, [name, lastname, birthday_date, email, fk_category_user], (err, results) => {
-    if (err) return callback(err, null);
-    callback(null, { id_user: results.insertId });
+    if (err) return callback({ code: "COD_ERR", result: { error: err.message } }, null);
+    callback(null, { code: "COD_OK", id_user: results.insertId });
   });
 };
 
@@ -13,8 +13,8 @@ const createUser = (name, lastname, birthday_date, email, fk_category_user, call
 const getAllUsers = (callback) => {
   const query = 'SELECT * FROM user';
   db.query(query, (err, results) => {
-    if (err) return callback(err, null);
-    callback(null, results);
+    if (err) return callback({ code: "COD_ERR", result: { error: err.message } }, null);
+    callback(null, { code: "COD_OK", data: results });
   });
 };
 
@@ -22,9 +22,9 @@ const getAllUsers = (callback) => {
 const getUserById = (id_user, callback) => {
   const query = 'SELECT * FROM user WHERE id_user = ?';
   db.query(query, [id_user], (err, results) => {
-    if (err) return callback(err, null);
-    if (results.length === 0) return callback(new Error('User not found'), null);
-    callback(null, results[0]);
+    if (err) return callback({ code: "COD_ERR", result: { error: err.message } }, null);
+    if (results.length === 0) return callback({ code: "COD_ERR", result: { error: 'User not found' } }, null);
+    callback(null, { code: "COD_OK", data: results[0] });
   });
 };
 
@@ -32,9 +32,9 @@ const getUserById = (id_user, callback) => {
 const updateUser = (id_user, name, lastname, birthday_date, email, fk_category_user, callback) => {
   const query = 'UPDATE user SET name = ?, lastname = ?, birthday_date = ?, email = ?, fk_category_user = ? WHERE id_user = ?';
   db.query(query, [name, lastname, birthday_date, email, fk_category_user, id_user], (err, results) => {
-    if (err) return callback(err, null);
-    if (results.affectedRows === 0) return callback(new Error('User not found'), null);
-    callback(null, { message: 'User updated successfully' });
+    if (err) return callback({ code: "COD_ERR", result: { error: err.message } }, null);
+    if (results.affectedRows === 0) return callback({ code: "COD_ERR", result: { error: 'User not found' } }, null);
+    callback(null, { code: "COD_OK", result: { message: 'User updated successfully' } });
   });
 };
 
@@ -42,9 +42,9 @@ const updateUser = (id_user, name, lastname, birthday_date, email, fk_category_u
 const deleteUser = (id_user, callback) => {
   const query = 'DELETE FROM user WHERE id_user = ?';
   db.query(query, [id_user], (err, results) => {
-    if (err) return callback(err, null);
-    if (results.affectedRows === 0) return callback(new Error('User not found'), null);
-    callback(null, { message: 'User deleted successfully' });
+    if (err) return callback({ code: "COD_ERR", result: { error: err.message } }, null);
+    if (results.affectedRows === 0) return callback({ code: "COD_ERR", result: { error: 'User not found' } }, null);
+    callback(null, { code: "COD_OK", result: { message: 'User deleted successfully' } });
   });
 };
 

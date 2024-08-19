@@ -98,11 +98,25 @@ const GET_ALL_SHOES_WITH_DETAILS = `
     ON ss.fk_store = st.store_id;
 `;
 
-
+const FETCH_USER_CATEGORIES_DETAILS = `
+  SELECT 
+    c.name AS category_name, 
+    u.id_user, 
+    u.name AS user_name
+  FROM 
+    categories c
+  JOIN 
+    user u 
+    ON u.fk_category_user = c.category_id
+  WHERE 
+    u.id_user = ?;
+`;
 module.exports = {
   GET_ALL_SHOES_WITH_CHARACTERISTICS_AND_PRICES,
   GET_SHOE_WITH_CHARACTERISTICS_AND_PRICES_BY_ID,
   GET_SHOES_BY_BRAND,
   GET_SHOES_BY_STORE,
-  GET_ALL_SHOES_WITH_DETAILS
+  GET_ALL_SHOES_WITH_DETAILS,
+  FETCH_USER_CATEGORIES_DETAILS
+
 };

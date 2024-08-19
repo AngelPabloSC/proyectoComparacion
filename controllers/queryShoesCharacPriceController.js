@@ -1,9 +1,31 @@
 // controllers/queryshoesCharacPriceController.js
 
 const shoesModel = require('../models/queryshoesCharacPrice');
+const { fetchUserCategoriesDetails } = require('../models/queryshoesCharacPrice');
+// Controlador para obtener todos los zapatos con características y precios
 
-// Controlador para obtener todos los zapatos con características y precios
-// Controlador para obtener todos los zapatos con características y precios
+// Controlador para obtener detalles de categorías de usuarios
+exports.getUserCategoriesDetails = (req, res) => {
+    const id_user = req.params.id_user;
+
+    if (!id_user) {
+        return res.status(400).json({
+            code: "ERR_CODE",
+            result: { error: "Falta el parámetro id_user" }
+        });
+    }
+
+    shoesModel.fetchUserCategoriesDetails(id_user, (err, result) => {
+        if (err) {
+            return res.status(500).json({
+                code: "ERR_CODE",
+                result: { error: err.message }
+            });
+        }
+        res.status(200).json(result);
+    });
+};
+
 exports.getShoesWithCharacteristicsAndPrices = (req, res) => {
     shoesModel.getAllShoesWithCharacteristicsAndPrices((err, shoes) => {
         if (err) {
@@ -101,3 +123,4 @@ exports.getShoesWithDetails = (req, res) => {
         res.status(200).json(result);
     });
 };
+
