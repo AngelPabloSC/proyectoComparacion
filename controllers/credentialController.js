@@ -5,18 +5,23 @@ const bcrypt = require('bcryptjs');
 // Crear una credencial
 exports.createCredential = (req, res) => {
     const { username, password, fk_user } = req.body;
+
+    // Llama al modelo para crear la credencial
     Credentials.createCredential(username, password, fk_user, (err, result) => {
-        if (err) return res.status(500).json({
-            code: "COD_ERR",
-            result: { error: err.message }
-        });
+        if (err) {
+            return res.status(500).json({
+                code: "COD_ERR",
+                result: { error: err.message }
+            });
+        }
+
+        // Envia una respuesta exitosa con los datos de la credencial creada
         res.status(201).json({
             code: "COD_OK",
             result: {
                 message: "Credential created successfully",
                 data: [
                     {
-
                         id_credential: result.id_credential,
                         username,
                         fk_user
