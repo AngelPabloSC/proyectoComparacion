@@ -182,9 +182,10 @@ const fetchUserCategoriesDetails = (userId, callback) => {
     });
 };
 
-const fetchUserShoesHistory = (userId, callback) => {
-    console.log('Fetching shoes history for userId:', userId);  // Para verificar el ID
-    db.query(queries.FETCH_USER_SHOES_HISTORY, [userId], (err, results) => {
+const fetchUserShoesHistory = (fk_user, callback) => {
+    console.log('Fetching history for fk_user:', fk_user);  // Verifica el valor del fk_user
+
+    db.query(queries.FETCH_USER_SHOES_HISTORY, [fk_user], (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return callback({
@@ -193,7 +194,7 @@ const fetchUserShoesHistory = (userId, callback) => {
             });
         }
 
-        console.log('Query results:', results);  // Verificar resultados de la consulta
+        console.log('Query Results:', results);  // Verifica los resultados obtenidos
 
         const shoesHistory = results.map(row => ({
             image_url: row.image_url,

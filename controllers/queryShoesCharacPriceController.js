@@ -125,9 +125,9 @@ exports.getShoesWithDetails = (req, res) => {
 };
 
 exports.getUserShoesHistory = (req, res) => {
-    const userId = req.params.userId;
+    const fk_user = req.params.fk_user;  // Cambia `id_user` por `fk_user`
 
-    shoesModel.fetchUserShoesHistory(userId, (err, result) => {
+    shoesModel.fetchUserShoesHistory(fk_user, (err, result) => {
         if (err) {
             return res.status(500).json({
                 code: "COD_ERR",
