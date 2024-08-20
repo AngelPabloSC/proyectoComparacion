@@ -91,6 +91,6 @@ router.post('/characPriceShoes/:shoe_id', queyrshoesCharacController.getShoeWith
 router.post('/shesbrand/:brand_id', queyrshoesCharacController.getShoesByBrand);
 router.post('/storeshoes/:store_id', queyrshoesCharacController.getShoesByStore);
 router.post('/usercategorie/:id_user', queyrshoesCharacController.getUserCategoriesDetails);
-router.post('/historiuser/:id_user', queyrshoesCharacController.getUserCategoriesDetails);
+router.post('/historiuser/:id_user', queyrshoesCharacController.getUserShoeHistory);
 router.post('/shoesprice', queyrshoesCharacController.getShoesWithDetails);
 module.exports = router;

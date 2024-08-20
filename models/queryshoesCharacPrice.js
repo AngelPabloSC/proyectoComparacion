@@ -226,4 +226,5 @@ module.exports = {
     getAllShoesWithDetails,
     fetchUserCategoriesDetails,
     fetchUserShoeHistory
+    
 };
