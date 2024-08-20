@@ -124,20 +124,13 @@ exports.getShoesWithDetails = (req, res) => {
     });
 };
 
-exports.getUserShoeHistory = (req, res) => {
-    const id_user = req.params.id_user;
+exports.getUserShoesHistory = (req, res) => {
+    const userId = req.params.userId;
 
-    if (!id_user) {
-        return res.status(400).json({
-            code: "ERR_CODE",
-            result: { error: "Falta el parámetro id_user" }
-        });
-    }
-
-    shoesModel.fetchUserShoeHistory(id_user, (err, result) => {
+    shoesModel.fetchUserShoesHistory(userId, (err, result) => {
         if (err) {
             return res.status(500).json({
-                code: "ERR_CODE",
+                code: "COD_ERR",
                 result: { error: err.message }
             });
         }

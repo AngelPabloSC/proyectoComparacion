@@ -182,30 +182,20 @@ const fetchUserCategoriesDetails = (userId, callback) => {
     });
 };
 
-
-const fetchUserShoeHistory = (userId, callback) => {
-    const query = `
-        SELECT 
-            sh.image_url,
-            sh.name AS shoe_name,
-            uh.date AS consultation_date
-        FROM 
-            user_history AS uh
-        INNER JOIN 
-            shoes AS sh ON uh.fk_shoes = sh.shoe_id
-        WHERE 
-            uh.fk_user = ?;
-    `;
-
-    db.query(query, [userId], (err, results) => {
+const fetchUserShoesHistory = (userId, callback) => {
+    console.log('Fetching shoes history for userId:', userId);  // Para verificar el ID
+    db.query(queries.FETCH_USER_SHOES_HISTORY, [userId], (err, results) => {
         if (err) {
+            console.error('Database error:', err);
             return callback({
                 code: "ERR_CODE",
                 result: { error: err.message }
             });
         }
 
-        const shoeHistory = results.map(row => ({
+        console.log('Query results:', results);  // Verificar resultados de la consulta
+
+        const shoesHistory = results.map(row => ({
             image_url: row.image_url,
             shoe_name: row.shoe_name,
             consultation_date: row.consultation_date
@@ -213,7 +203,7 @@ const fetchUserShoeHistory = (userId, callback) => {
 
         callback(null, {
             code: "COD_OK",
-            result: { data: shoeHistory }
+            result: { data: shoesHistory }
         });
     });
 };
@@ -225,6 +215,6 @@ module.exports = {
     getShoesByStore,
     getAllShoesWithDetails,
     fetchUserCategoriesDetails,
-    fetchUserShoeHistory
+    fetchUserShoesHistory
     
 };
