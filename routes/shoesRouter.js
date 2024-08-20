@@ -52,9 +52,9 @@ router.post('/shoes/delete/:id', shoesController.deleteShoe);
 // Rutas para user
 router.post('/user/create', userController.createUser);
 router.post('/user/getAll', userController.getAllUsers);
-router.post('/user/getById', userController.getUserById);
-router.post('/user/update/:id', userController.updateUser);
-router.post('/user/delete', userController.deleteUser);
+router.post('/user/getById/:id_user', userController.getUserById);
+router.post('/user/update/:id_user', userController.updateUser);
+router.post('/user/delete/id_user', userController.deleteUser);
 
 //iniciar Secion
 router.get('/protected-route', authenticate, (req, res) => {
