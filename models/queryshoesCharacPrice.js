@@ -183,7 +183,40 @@ const fetchUserCategoriesDetails = (userId, callback) => {
 };
 
 
+const fetchUserShoeHistory = (userId, callback) => {
+    const query = `
+        SELECT 
+            sh.image_url,
+            sh.name AS shoe_name,
+            uh.date AS consultation_date
+        FROM 
+            user_history AS uh
+        INNER JOIN 
+            shoes AS sh ON uh.fk_shoes = sh.shoe_id
+        WHERE 
+            uh.fk_user = ?;
+    `;
 
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            return callback({
+                code: "ERR_CODE",
+                result: { error: err.message }
+            });
+        }
+
+        const shoeHistory = results.map(row => ({
+            image_url: row.image_url,
+            shoe_name: row.shoe_name,
+            consultation_date: row.consultation_date
+        }));
+
+        callback(null, {
+            code: "COD_OK",
+            result: { data: shoeHistory }
+        });
+    });
+};
 
 module.exports = {
     getAllShoesWithCharacteristicsAndPrices,
@@ -192,4 +225,5 @@ module.exports = {
     getShoesByStore,
     getAllShoesWithDetails,
     fetchUserCategoriesDetails,
+    fetchUserShoeHistory
 };

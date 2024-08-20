@@ -111,12 +111,27 @@ const FETCH_USER_CATEGORIES_DETAILS = `
   WHERE 
     u.id_user = ?;
 `;
+
+const FETCH_USER_SHOES_HISTORY = `
+  SELECT 
+    sh.image_url, 
+    sh.name AS shoe_name, 
+    uh.date AS consultation_date 
+  FROM 
+    history_user uh
+  JOIN 
+    shoes sh 
+    ON uh.fk_shoes = sh.shoe_id
+  WHERE 
+    uh.fk_user = ?;
+`;
 module.exports = {
   GET_ALL_SHOES_WITH_CHARACTERISTICS_AND_PRICES,
   GET_SHOE_WITH_CHARACTERISTICS_AND_PRICES_BY_ID,
   GET_SHOES_BY_BRAND,
   GET_SHOES_BY_STORE,
   GET_ALL_SHOES_WITH_DETAILS,
-  FETCH_USER_CATEGORIES_DETAILS
+  FETCH_USER_CATEGORIES_DETAILS,
+  FETCH_USER_SHOES_HISTORY
 
 };

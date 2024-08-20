@@ -88,8 +88,9 @@ router.post('/shoesstore/delete/:id', storeShoesController.deleteStoreShoes);
 //Queryshoeschrateris
 router.post('/characPriceShoes', queyrshoesCharacController.getShoesWithCharacteristicsAndPrices);
 router.post('/characPriceShoes/:shoe_id', queyrshoesCharacController.getShoeWithCharacteristicsAndPricesById);
-router.post('/shesbrand/:brand_id', queyrshoesCharacController.getShoesByBrand)
-router.post('/storeshoes/:store_id', queyrshoesCharacController.getShoesByStore)
-router.post('/usercategorie/:id_user', queyrshoesCharacController.getUserCategoriesDetails)
-router.post('/shoesprice', queyrshoesCharacController.getShoesWithDetails)
+router.post('/shesbrand/:brand_id', queyrshoesCharacController.getShoesByBrand);
+router.post('/storeshoes/:store_id', queyrshoesCharacController.getShoesByStore);
+router.post('/usercategorie/:id_user', queyrshoesCharacController.getUserCategoriesDetails);
+router.post('/historiuser/:id_user', queyrshoesCharacController.getUserCategoriesDetails);
+router.post('/shoesprice', queyrshoesCharacController.getShoesWithDetails);
 module.exports = router;
